@@ -4,9 +4,10 @@ class PinsController < ApplicationController
  before_action :correct_user, only: [:edit, :update, :destroy]
 
  respond_to :html
+ helper_method :pins
 
- def index
- @pins = Pin.all
+ def pins
+ @pins = Pin.all.order("created_at DESC").paginate(:page => params[:page], :per_page => 3)
  end
 
  def show
@@ -55,5 +56,8 @@ class PinsController < ApplicationController
  redirect_to pins_path, notice: "Not authorized to edit this pin" if
 @pin.nil?
  end
+ 
+
+
 
 end
